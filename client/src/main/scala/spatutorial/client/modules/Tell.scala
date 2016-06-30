@@ -4,7 +4,7 @@ import diode.data.Pot
 import diode.react.ModelProxy
 import japgolly.scalajs.react.{BackendScope, Callback, ReactComponentB}
 import spatutorial.client.components.Bootstrap.Panel
-import spatutorial.shared.Tell
+import spatutorial.shared.TellItem
 import japgolly.scalajs.react.vdom.prefix_<^._
 import spatutorial.client.components.GlobalStyles
 
@@ -17,13 +17,15 @@ object Tell {
 
   @inline private def bss = GlobalStyles.bootstrapStyles
 
-  case class Props(proxy: ModelProxy[Pot[Tell]])
+  case class Props(proxy: ModelProxy[Pot[TellItem]])
 
-  case class State(selectedItem: Option[Tell] = None)
+  case class State(selectedItem: Option[TellItem] = None)
 
   class Backend(t: BackendScope[Props, State]) {
     def sayIt(): Callback = {
       println("it")
+      t.modState(s => s.copy(selectedItem = Some(TellItem("It!!"))))
+      t.
     }
 
     def render(p: Props, s: State) =
@@ -31,7 +33,7 @@ object Tell {
         <.div(bss.formGroup,
           <.label(^.`for` := "tellText", "I want to tell you:"),
           <.input(^.id := "tellText", ^.name := "tellText"),
-          <.button(^.onClick ==> sayIt
+          <.button(^.onClick --> sayIt, "Say it!")
         )
       )
   }
@@ -41,5 +43,5 @@ object Tell {
     .renderBackend[Backend]
     .build
 
-  def apply(proxy: ModelProxy[Pot[Tell]]) = component(Props(proxy))
+  def apply(proxy: ModelProxy[Pot[TellItem]]) = component(Props(proxy))
 }

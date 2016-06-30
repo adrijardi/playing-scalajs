@@ -5,7 +5,7 @@ import diode._
 import diode.data._
 import diode.util._
 import diode.react.ReactConnector
-import spatutorial.shared.{Api, Tell, TodoItem}
+import spatutorial.shared.{Api, TellItem, TodoItem}
 import boopickle.Default._
 
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
@@ -24,7 +24,7 @@ case class UpdateMotd(potResult: Pot[String] = Empty) extends PotAction[String, 
 }
 
 // The base model of our application
-case class RootModel(todos: Pot[Todos], tell: Pot[Tell], motd: Pot[String])
+case class RootModel(todos: Pot[Todos], tell: Pot[TellItem], motd: Pot[String])
 
 case class Todos(items: Seq[TodoItem]) {
   def updated(newItem: TodoItem) = {

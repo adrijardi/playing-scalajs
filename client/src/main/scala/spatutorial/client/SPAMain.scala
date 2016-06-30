@@ -25,6 +25,7 @@ object SPAMain extends js.JSApp {
   case object TodoLoc extends Loc
 
   case object TellLoc extends Loc
+  case object TellMessageLoc extends Loc
 
   // configure the router
   val routerConfig = RouterConfigDsl[Loc].buildConfig { dsl =>
@@ -34,6 +35,7 @@ object SPAMain extends js.JSApp {
     (staticRoute(root, DashboardLoc) ~> renderR(ctl => SPACircuit.wrap(_.motd)(proxy => Dashboard(ctl, proxy)))
       | staticRoute("#todo", TodoLoc) ~> renderR(ctl => SPACircuit.connect(_.todos)(Todo(_)))
       | staticRoute("#tell", TellLoc) ~> renderR(ctl => SPACircuit.connect(_.tell)(Tell(_)))
+      | staticRoute("#tellMessage", TellMessageLoc) ~> renderR(ctl => SPACircuit.connect(_.tell)(TellMessage(_)))
       ).notFound(redirectToPage(DashboardLoc)(Redirect.Replace))
   }.renderWith(layout)
 
